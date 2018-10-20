@@ -12,5 +12,30 @@
 </head>
 <body class="text-center">
     <div class="jumbotron header"><h1>WEEKEND TO DO<br>LIST APP</h1></div>
+    <div>
+        <label for="task">Task</label>
+        <input id="task" type="text" />
+        <label for="time">How long will this take?</label>
+        <input id="time" type="text" />
+        <label for="notes">Notes</label>
+        <input id="notes" type="text" />
+        <button id="addNewTask">Add Task</button>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Estimated Completion Time</th>
+                <th>All done?</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody id="taskList">
+            <!-- New tasks will populate here -->
+        </tbody>
+        <tbody id="completedTaskList">
+            <!-- finished tasks will be moved here! -->
+        </tbody>
+    </table>
 </body>
 </html>
