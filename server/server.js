@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('server/public'));
 
 //routes
-//app.use('/tasks', taskRouter);
+app.use('/tasks', taskRouter);
 
 
 //Spinning up port
