@@ -6,7 +6,7 @@ $(document).ready(onReady);
 function onReady() {
     console.log('JQ sourced');
     $('#addNewTask').on('click', addNewTask);
-    $('.table').on('click', '.deleteBtn', deleteTask);
+    $('.table').on('click', '.deleteBtn', addAlert);
     $('.table').on('click', '.editBtn', editTask);
     $('.table').on('click', '.submitBtn', submitUpdates);
     $('.dropdown-toggle').dropdown(); 
@@ -80,8 +80,7 @@ function addNewTask() {
 } // end addNewTask
 
 // DELETE call to remove task from list
-function deleteTask() {
-    taskId = $(this).closest('tr').data('id');
+function deleteTask(taskId) {
     console.log('delete clicked', taskId);
     $.ajax({
         method: 'DELETE',
@@ -93,6 +92,29 @@ function deleteTask() {
         alert('error deleting task', error);
     })
 } // end deleteTask
+
+function addAlert() {
+    taskId = $(this).closest('tr').data('id');
+    console.log('in sweetalert');
+    swal({
+        title: "Are you sure you want to give up on this?",
+        text: "Once deleted, you will not be able to recover this task! At least, until you type it in again",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then(function (willDelete) {
+        if (willDelete) {
+            swal("Nice! You gave up on something", {
+                icon: "success"
+            });
+            deleteTask(taskId);
+        } else {
+            swal("You decided not to be a quitter. Nice.");
+        }
+    });
+}; //end delete listener
+
 
 //function to append inputs for updating tasks
 function editTask() {
