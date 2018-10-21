@@ -9,13 +9,15 @@ function onReady() {
     $('.table').on('click', '.deleteBtn', deleteTask);
     $('.table').on('click', '.editBtn', editTask);
     $('.table').on('click', '.submitBtn', submitUpdates);
-    $('.dropdown-toggle').dropdown();       
+    $('.dropdown-toggle').dropdown(); 
+    $('.table').on('click', '.dropdown-item', changeStatus);     
     getTaskList();
 }
 
 // GET call to get database info and append to the DOM
 function getTaskList () {
     $('#taskList').empty();
+    $('#completedTaskList').empty();
     $.ajax({
         method: 'GET',
         url: '/tasks'
@@ -44,7 +46,11 @@ function getTaskList () {
                 </tr>
             `)
             taskRow.data('id', task.id);
-            $('#taskList').append(taskRow);
+            if(task.completion_status !== 'All done!') {
+                $('#taskList').append(taskRow);
+            } else {
+                $('#completedTaskList').append(taskRow);
+            }
         }
     }).catch(function(error) {
         console.log('Error getting task list from database:', error);
@@ -132,3 +138,23 @@ function submitUpdates() {
         alert('error editting task')
     })
 } // end submitUpdates
+
+//function to update status using the dropdown button
+function changeStatus() {
+    taskId = $(this).closest('tr').data('id');
+    console.log('Clicked in menu');
+    let newStatus = $(this).text();
+    console.log(newStatus);
+    $.ajax({
+        method: 'PUT',
+        url: `/tasks/status/${taskId}`,
+        data: {
+            status: newStatus
+        }
+    }).then(function (response) {
+        console.log('success sending status', response);
+        getTaskList();
+    }).catch(function(response) {
+        console.log('error sending status', error);
+    })
+}

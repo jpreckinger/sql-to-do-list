@@ -88,7 +88,7 @@ taskRouter.delete('/:id', (req, res) => {
     })
 })
 
-//PUT route
+//PUT route for text edits
 taskRouter.put('/:id', (req, res) => {
     console.log('In put route');
     let taskId = req.params.id;
@@ -102,6 +102,22 @@ taskRouter.put('/:id', (req, res) => {
     })
     .catch((error) => {
         console.log('error editing task');
+        res.sendStatus(500);
+    })
+})
+
+//PUT route for status updates
+taskRouter.put('/status/:id', (req, res) => {
+    let taskId = req.params.id;
+    let statusUpdate = req.body;
+    const sqlText = `UPDATE tasks SET completion_status = $1 WHERE id = $2;`;
+    pool.query(sqlText, [statusUpdate.status, taskId])
+    .then((result) => {
+        console.log('success updating status', result);
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error updating status', error);
         res.sendStatus(500);
     })
 })
