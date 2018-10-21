@@ -58,4 +58,21 @@ taskRouter.get('/', (req, res) => {
     })
 })
 
+// POST route
+
+taskRouter.post('/', (req, res)=> {
+    newTask = req.body;
+    const sqlText = `INSERT INTO tasks (task, time_to_complete, completion_status, notes)
+                     VALUES ($1, $2, $3, $4);`;
+    pool.query(sqlText, [newTask.task, newTask.time, newTask.status, newTask.notes])
+    .then((result) => {
+        console.log('Added task to database', newTask);
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error adding task to database', newTask);
+        res.sendStatus(500);
+    })
+})
+
 module.exports = taskRouter;
