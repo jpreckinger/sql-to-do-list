@@ -75,4 +75,17 @@ taskRouter.post('/', (req, res)=> {
     })
 })
 
+// DELETE route
+taskRouter.delete('/:id', (req, res) => {
+    let taskId = req.params.id;
+    const sqlText = `DELETE FROM tasks WHERE id = $1;`
+    pool.query(sqlText, [taskId])
+    .then((result) => {
+        res.sendStatus(200); //gotta send that response
+    })
+    .catch((error) => {
+        res.sendStatus(500); //cause we write well-behaved servers
+    })
+})
+
 module.exports = taskRouter;
