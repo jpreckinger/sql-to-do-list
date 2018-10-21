@@ -88,4 +88,22 @@ taskRouter.delete('/:id', (req, res) => {
     })
 })
 
+//PUT route
+taskRouter.put('/:id', (req, res) => {
+    console.log('In put route');
+    let taskId = req.params.id;
+    let taskEdit = req.body;
+    const sqlText = `UPDATE tasks SET task = $1, time_to_complete = $2, notes = $3 WHERE id = $4;`
+    console.log('data for put route', req.body, req.params.id);
+    pool.query(sqlText, [taskEdit.taskName, taskEdit.completionTime, taskEdit.notes, taskId])
+    .then((result) => {
+        console.log('success editing task');
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error editing task');
+        res.sendStatus(500);
+    })
+})
+
 module.exports = taskRouter;

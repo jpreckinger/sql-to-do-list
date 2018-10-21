@@ -7,6 +7,8 @@ function onReady() {
     console.log('JQ sourced');
     $('#addNewTask').on('click', addNewTask);
     $('.table').on('click', '.deleteBtn', deleteTask);
+    $('.table').on('click', '.editBtn', editTask);
+    $('.table').on('click', '.submitBtn', submitUpdates);
     getTaskList();
 }
 
@@ -59,6 +61,7 @@ function addNewTask() {
     })
 } // end addNewTask
 
+// DELETE call to remove task from list
 function deleteTask() {
     taskId = $(this).closest('tr').data('id');
     console.log('delete clicked', taskId);
@@ -71,4 +74,49 @@ function deleteTask() {
     }).catch(function(error) {
         alert('error deleting task', error);
     })
-}
+} // end deleteTask
+
+//function to append inputs for updating tasks
+function editTask() {
+    taskId = $(this).closest('tr').data('id');
+    console.log(taskId);
+    let targetRow = $(this).closest('tr');
+    let taskNameEdit = $(this).closest('tr').find('.taskName').text();
+    let completionTimeEdit = $(this).closest('tr').find('.completionTime').text();
+    let completionStatus = $(this).closest('tr').find('.compStatus').text();
+    let notesEdit = $(this).closest('tr').find('.notes').text();
+    targetRow.after(`
+    <tr>
+        <form>
+            <td><input class="taskNameEdit" value="${taskNameEdit}" type="text"></td>
+            <td><input class="completionTimeEdit" value="${completionTimeEdit}" type="text"></td>
+            <td class="compStatus">${completionStatus}</td>
+            <td><input class="notesEdit" value="${notesEdit}" type="text"></td>
+            <td><button class="submitBtn btn btn-secondary">Comfirm these changes!</button></td>
+        </form>
+    </tr>
+    `);
+} //end editTask
+
+//PUT call to send updates to database
+function submitUpdates() {
+    event.preventDefault();
+    let newTaskName = $(this).closest('tr').find('.taskNameEdit').val();
+    let newCompletionTime = $(this).closest('tr').find('.completionTimeEdit').val();
+    let newNotes= $(this).closest('tr').find('.notesEdit').val();
+    $.ajax({
+        method: 'PUT',
+        url: `/tasks/${taskId}`,
+        data: {
+            taskName: newTaskName,
+            completionTime: newCompletionTime,
+            notes: newNotes
+        }
+    })
+    .then(function(response) {
+        getTaskList();
+    })
+    .catch(function(error){
+        alert('error editting task')
+    })
+} // end submitUpdates
