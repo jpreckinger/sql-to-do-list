@@ -7,6 +7,7 @@ function onReady() {
     getTaskList();
 }
 
+// function to get database info and append to the DOM
 function getTaskList () {
     $('#taskList').empty();
     $.ajax({
@@ -27,9 +28,11 @@ function getTaskList () {
     }).catch(function(error) {
         console.log('Error getting task list from database:', error);
     })
-}
+} // end getTaskList
 
+// function to take input values from DOM and add to the database
 function addNewTask() {
+    event.preventDefault();
     let taskIn = $('#task').val();
     let timeIn = $('#time').val();
     let notesIn = $('#notes').val();
@@ -46,4 +49,4 @@ function addNewTask() {
         console.log('Sent new task to server', response);
         getTaskList();
     })
-}
+} // end addNewTask
