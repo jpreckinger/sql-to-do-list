@@ -9,6 +9,7 @@ function onReady() {
     $('.table').on('click', '.deleteBtn', deleteTask);
     $('.table').on('click', '.editBtn', editTask);
     $('.table').on('click', '.submitBtn', submitUpdates);
+    $('.dropdown-toggle').dropdown();       
     getTaskList();
 }
 
@@ -25,7 +26,18 @@ function getTaskList () {
                 <tr>
                     <td class="taskName">${task.task}</td>
                     <td class="completionTime">${task.time_to_complete}</td>
-                    <td class="compStatus">${task.completion_status}<button class=completeBtn>Done!</button></td>
+                    <td class="compStatus">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ${task.completion_status}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button class="dropdown-item" type="button">Not yet...</button>
+                            <button class="dropdown-item" type="button">Working on it.</button>
+                            <button class="dropdown-item" type="button">All done!</button>
+                        </div>
+                    </div>    
+                    </td>
                     <td class="notes">${task.notes}</td>
                     <td class="actions"><button class="deleteBtn">Delete?</button>
                         <button class="editBtn">Change it!</button></td>
@@ -51,7 +63,7 @@ function addNewTask() {
         data: {
             task: taskIn,
             time: timeIn,
-            status: 'false',
+            status: 'Not yet...',
             notes: notesIn
         }
     }).then(function(response) {
