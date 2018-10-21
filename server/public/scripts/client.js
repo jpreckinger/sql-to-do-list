@@ -30,7 +30,7 @@ function getTaskList () {
                     <td class="completionTime">${task.time_to_complete}</td>
                     <td class="compStatus">
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         ${task.completion_status}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -41,8 +41,8 @@ function getTaskList () {
                     </div>    
                     </td>
                     <td class="notes">${task.notes}</td>
-                    <td class="actions"><button class="deleteBtn">Delete?</button>
-                        <button class="editBtn">Change it!</button></td>
+                    <td class="actions"><button class="deleteBtn btn btn-warning">Delete?</button>
+                        <button class="editBtn btn btn-info">Change it!</button></td>
                 </tr>
             `)
             taskRow.data('id', task.id);
@@ -100,7 +100,7 @@ function addAlert() {
         title: "Are you sure you want to give up on this?",
         text: "Once deleted, you will not be able to recover this task! At least, until you type it in again",
         icon: "warning",
-        buttons: true,
+        buttons: ['Hold up tho', 'I am a quitter'],
         dangerMode: true,
     })
     .then(function (willDelete) {
@@ -130,9 +130,9 @@ function editTask() {
         <form>
             <td><input class="taskNameEdit" value="${taskNameEdit}" type="text"></td>
             <td><input class="completionTimeEdit" value="${completionTimeEdit}" type="text"></td>
-            <td class="compStatus">${completionStatus}</td>
+            <td class="compStatus"></td>
             <td><input class="notesEdit" value="${notesEdit}" type="text"></td>
-            <td><button class="submitBtn btn btn-secondary">Comfirm these changes!</button></td>
+            <td><button class="submitBtn btn btn-danger">Comfirm these changes!</button></td>
         </form>
     </tr>
     `);
