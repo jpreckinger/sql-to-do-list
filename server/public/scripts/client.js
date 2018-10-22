@@ -30,7 +30,7 @@ function getTaskList () {
                     <td class="completionTime">${task.time_to_complete}</td>
                     <td class="compStatus">
                     <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         ${task.completion_status}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -47,8 +47,10 @@ function getTaskList () {
             `)
             taskRow.data('id', task.id);
             if(task.completion_status !== 'All done!') {
+                $(taskRow).removeClass("table-success");
                 $('#taskList').append(taskRow);
             } else {
+                $(taskRow).addClass("table-success");
                 $('#completedTaskList').append(taskRow);
             }
         }
