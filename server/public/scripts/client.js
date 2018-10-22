@@ -46,10 +46,16 @@ function getTaskList () {
                 </tr>
             `)
             taskRow.data('id', task.id);
-            if(task.completion_status !== 'All done!') {
+            if(task.completion_status === 'Not yet...') {
                 $(taskRow).removeClass("table-success");
+                $(taskRow).removeClass("table-primary");
+                $('#taskList').append(taskRow);
+            } else if (task.completion_status === 'Working on it.' ) {
+                $(taskRow).removeClass("table-success");
+                $(taskRow).addClass("table-primary");
                 $('#taskList').append(taskRow);
             } else {
+                $(taskRow).removeClass("table-primary");
                 $(taskRow).addClass("table-success");
                 $('#completedTaskList').append(taskRow);
             }
